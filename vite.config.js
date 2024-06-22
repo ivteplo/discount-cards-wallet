@@ -3,15 +3,9 @@
 import { defineConfig } from "vite"
 import { svelte } from "@sveltejs/vite-plugin-svelte"
 import { VitePWA } from "vite-plugin-pwa"
-import svelteSVG from "vite-plugin-svelte-svg"
 
 export default defineConfig({
   plugins: [
-    svelteSVG({
-      svgoConfig: {},
-      // don't require appending `?component` when importing SVG
-      requireSuffix: false
-    }),
     svelte({}),
     VitePWA({
       registerType: "prompt",

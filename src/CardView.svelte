@@ -57,9 +57,9 @@
 
 <div class="CardView column center">
   <div class="CardInfo column center">
-    <h2>{card.store}</h2>
+    <h2>{card?.store}</h2>
     <svg bind:this={svg} />
-    <code class="CardNumber">{card.number}</code>
+    <code class="CardNumber">{card?.number}</code>
   </div>
   <div class="row CardViewActions">
     <button type="button" class="fill" on:click={editCard}>

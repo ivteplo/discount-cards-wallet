@@ -13,8 +13,8 @@
   import Alert from "./components/Alert.svelte"
   import Spinner from "./components/Spinner.svelte"
 
-  import CardIcon from "./icons/card.svg"
-  import SettingsIcon from "./icons/settings.svg"
+  import CardIcon from "./icons/CardIcon.svelte"
+  import SettingsIcon from "./icons/SettingsIcon.svelte"
 
   import { loadCardsFromStorage } from "./cardStore"
 

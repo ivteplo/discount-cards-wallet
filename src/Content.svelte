@@ -1,8 +1,9 @@
 <!-- Copyright (c) 2022 Ivan Teplov -->
 <script>
+  import { SheetElement } from "@ivteplo/html-sheet-element"
+
   import { _ } from "svelte-i18n"
 
-  import Sheet from "./components/Sheet.svelte"
   import Alert from "./components/Alert.svelte"
   import CardView from "./CardView.svelte"
 
@@ -11,21 +12,21 @@
   import CardForm from "./CardForm.svelte"
   import CardList from "./CardList.svelte"
 
-  let showCardForm = false
-  let cardForm = {}
+  /** @type {SheetElement} */
+  let cardForm
+  let cardFormData = {}
 
-  const hideCardForm = () => {
-    showCardForm = false
-    cardForm = {}
+  const onCardFormHide = () => {
+    cardFormData = {}
   }
 
   const showAddCardForm = () => {
-    cardForm = { formType: "add" }
-    showCardForm = true
+    cardFormData = { formType: "add" }
+    cardForm.showModal()
   }
 
   function openEditCardForm(card) {
-    cardForm = {
+    cardFormData = {
       formType: "edit",
       store: card.store,
       number: card.number,
@@ -33,7 +34,7 @@
       gradient: card.gradient,
     }
 
-    showCardForm = true
+    cardForm.showModal()
   }
 
   let isCardRemovingDialogShown = false
@@ -69,28 +70,25 @@
     on:createNewCard={showAddCardForm}
   />
 
-  {#if shownCard}
-    <Sheet
-      minHeight="75vh"
-      on:hide={() => {
-        shownCard = undefined
-      }}
-    >
-      <div class="fill column center">
-        <CardView
-          card={shownCard}
-          on:edit={() => openEditCardForm(shownCard)}
-          on:remove={showCardRemovingDialog}
-        />
-      </div>
-    </Sheet>
-  {/if}
+  <ui-sheet
+    open={shownCard}
+    minHeight="75vh"
+    on:hide={() => {
+      shownCard = undefined
+    }}
+  >
+    <div class="fill column center">
+      <CardView
+        card={shownCard}
+        on:edit={() => openEditCardForm(shownCard)}
+        on:remove={showCardRemovingDialog}
+      />
+    </div>
+  </ui-sheet>
 
-  {#if showCardForm}
-    <Sheet on:hide={() => hideCardForm()}>
-      <CardForm {...cardForm} />
-    </Sheet>
-  {/if}
+  <ui-sheet bind:this={cardForm} on:hide={() => onCardFormHide()}>
+    <CardForm {...cardFormData} />
+  </ui-sheet>
 
   {#if isCardRemovingDialogShown}
     <Alert on:hide={hideCardRemovingDialog}>
